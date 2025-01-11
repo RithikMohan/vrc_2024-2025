@@ -1,21 +1,28 @@
 #include "robot.h"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::MotorGroup left_motors({-19, -13, -2}, pros::MotorGearset::blue); 
-pros::MotorGroup right_motors({16, 15, 14}, pros::MotorGearset::blue); 
-pros::MotorGroup intake_motors({10, -4}, pros::MotorGearset::blue);
-pros::ADIDigitalOut clamp ('A');
+pros::MotorGroup left_motors({-13, -15, 12}, pros::MotorGearset::blue); 
+pros::MotorGroup right_motors({10, 2, -9}, pros::MotorGearset::blue); 
+pros::Motor intake_motor_front(4, pros::MotorGearset::blue);
+pros::Motor intake_motor_back(3, pros::MotorGearset::blue);
+pros::Motor arm_motor_right(20, pros::MotorGearset::blue);
+pros::Motor arm_motor_left(19, pros::MotorGearset::blue);
+pros::Rotation rotational_sensor (21);
+
+pros::ADIDigitalOut clamp ('B');
+pros::ADIDigitalOut intake ('H');
+pros::ADIDigitalOut doinker ('A');
 
 
 lemlib::Drivetrain drivetrain(&left_motors, // left motor group
                               &right_motors, // right motor group
-                              12.25, // 10 inch track width
+                              10.5, // 10 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 4" omnis
                               360, // drivetrain rpm is 360
                               2 // horizontal drift is 2 (for now)
 );
 
-pros::Imu imu(10);
+pros::Imu imu(18);
 
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
@@ -37,9 +44,9 @@ lemlib::ControllerSettings lateral_controller(30, // proportional gain (kP)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(11.5, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              6.8, // derivative gain (kD)
+lemlib::ControllerSettings angular_controller(35, // proportional gain (kP)
+                                              20, // integral gain (kI)
+                                              100, // derivative gain (kD)
                                               0, // anti windup
                                               0, // small error range, in degrees
                                               0, // small error range timeout, in milliseconds
