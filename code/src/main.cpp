@@ -9,21 +9,20 @@ void initialize() {
     chassis.calibrate(); // calibrate sensors
     rotational_sensor.set_position(0);
     intake.set_value(LOW);
-    // arm_motor_right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    // arm_motor_left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
     pros::Task screen_task([&]() {
         while (true) {
-            \
+        
             // print robot location to the brain screen
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(3, "Version:1.1.12"); // heading
-            pros::delay(20);
+            pros::delay(30);
         }
     });
 
+     //put the common tasks here
     pros::Task arm_task([&]() {
 
         int rotationPosition = 0;
@@ -106,6 +105,8 @@ void initialize() {
             pros::delay(20);
         }
     });
+
+    
 }
 
 
@@ -115,6 +116,10 @@ void disabled() {}
 void competition_initialize() {}
 
 void opcontrol() {
+
+   
+
+
     bool intake_running = false; 
     bool arm_running = false;
  

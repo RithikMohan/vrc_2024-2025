@@ -169,8 +169,10 @@ void autonomous1(){
 
 void autonomous(){
     // intakeForward(127);
-    chassis.setPose(0, 0, 0);
-    chassis.turnToPoint(76, 163, 1000);
+    chassis.setPose(25, -150, 0);
+    pros::delay(500);
+    chassis.moveToPoint(25,-84, 1000, {.maxSpeed = 40});
+    // chassis.turnToPoint(91, -150, 1000, {.maxSpeed = 40});
 
 }
 
